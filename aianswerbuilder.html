@@ -64,15 +64,27 @@
     <div class="iframe-container">
         <iframe id="answerIframe" src=""></iframe>
     </div>
-    <script>
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
+<script>
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
 
+    document.addEventListener("DOMContentLoaded", function () {
         const query = getQueryParam('query');
+        console.log("Extracted Query:", query); // Debugging output
+
         const iframe = document.getElementById('answerIframe');
-        iframe.src = `https://clearco.thoughtspot.cloud/?embedApp=true&isSageEmbed=true/embed/insights/create-ai-answer?query=${encodeURIComponent(query)}&executeSearch=true&hideWorksheetSelector=true`;
-    </script>
+
+        if (iframe && query) { // Ensure iframe exists and query is not null
+            const encodedQuery = encodeURIComponent(query);
+            const iframeSrc = `https://clearco.thoughtspot.cloud/?embedApp=true&isSageEmbed=true&query=${encodedQuery}&executeSearch=true&hideWorksheetSelector=true`;
+            console.log("Iframe Src:", iframeSrc); // Debugging output
+            iframe.src = iframeSrc;
+        } else {
+            console.error("Error: Iframe not found or query is empty.");
+        }
+    });
+</script>
 </body>
 </html>
